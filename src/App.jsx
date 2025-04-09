@@ -14,8 +14,11 @@ function App() {
       header: true,
       download: true,
       complete: (results) => {
-        setVocab(results.data);
-        startWordDrop(results.data);
+        const filtered = results.data.filter(
+          row => row['Vocabulary Category'] === 'Ritual and Religion'
+        );
+        setVocab(filtered);
+        startWordDrop(filtered);
       },
     });
   }, []);
@@ -43,7 +46,7 @@ function App() {
             english: random.English.trim().toLowerCase(),
             x: Math.random() * 90,
             y: 0,
-            speed: 0.1 + Math.random() * 0.05,
+            speed: 0.1 + Math.random() * 0.02,
           });
         }
 
@@ -59,7 +62,9 @@ function App() {
     setInput(value);
 
     setWords(prev => {
-      const match = prev.find(word => word.english === value);
+      const match = prev.find(word =>
+        word.english.toLowerCase().split(/[\s;,]+/).includes(value)
+      );
       if (match) {
         setScore(s => s + 1);
         setInput('');
@@ -67,6 +72,13 @@ function App() {
       }
       return prev;
     });
+  };
+
+  const restartGame = () => {
+    setScore(0);
+    setInput('');
+    setWords([]);
+    startWordDrop(vocab);
   };
 
   return (
@@ -80,6 +92,9 @@ function App() {
         placeholder="Type English translation..."
         autoFocus
       />
+      <button className="restart-button" onClick={restartGame}>
+        Restart Game
+      </button>
       {words.map(word => (
         <div
           key={word.id}

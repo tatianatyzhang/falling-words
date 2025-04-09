@@ -31,3 +31,20 @@
   font-size: 1.2em;
   font-weight: bold;
 }
+
+.restart-button {
+  position: absolute;
+  bottom: 80px;
+  right: 40px;
+  padding: 10px 15px;
+  font-size: 1em;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.restart-button:hover {
+  background-color: #0056b3;
+}
